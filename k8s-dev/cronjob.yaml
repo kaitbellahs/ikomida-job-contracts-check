@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app: contracts-check
+  name: contracts-check-job
+  namespace: ikomida-job
+spec:
+  schedule: "0 0 15 * *"
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 21600 # 60s * 60m * 6h
+  suspend: true
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: contracts-check
+        spec:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 3000
+            fsGroup: 2000
+            runAsNonRoot: true
+          restartPolicy: OnFailure
+          containers:
+            - image: hub.docker.internal:5000/ikomida/contracts-check-job-image:latest
+              name: contracts-check-job
+              env:
+                - name: ENV
+                  value: "DEV"
+                - name: DBUSER
+                  valueFrom:
+                    secretKeyRef:
+                      name: environment
+                      key: DBUSER
+                - name: DBPASS
+                  valueFrom:
+                    secretKeyRef:
+                      name: environment
+                      key: DBPASS
+                - name: DBNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: environment
+                      key: DBNAME
+                - name: DBHOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: environment
+                      key: DBHOST
+                - name: DBPORT
+                  valueFrom:
+                    secretKeyRef:
+                      name: environment
+                      key: DBPORT
+                - name: PROJID
+                  valueFrom:
+                    secretKeyRef:
+                      name: environment
+                      key: PROJID
+                - name: GOOGLEADMIN
+                  valueFrom:
+                    secretKeyRef:
+                      name: environment
+                      key: googleAdmin
+                      optional: false

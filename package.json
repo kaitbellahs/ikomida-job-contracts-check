@@ -1,0 +1,18 @@
+{
+    "name": "ikomida-contracts-check-job",
+    "version": "1.0.0",
+    "description": "ikomida contracts-check job",
+    "main": "src/job.mjs",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "job": "node src/job.mjs",
+        "start": "pm2-runtime start process.yml"
+    },
+    "author": "Khalid Ait Bellahs",
+    "license": "UNLICENSED",
+    "dependencies": {
+        "axios": "^0.27.2",
+        "ikomida-shared": "github:TIAltoNivel/ikomida-shared#main",
+        "uuid": "^8.3.2"
+    }
+}
