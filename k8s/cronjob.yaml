@@ -30,6 +30,11 @@ spec:
               name: contracts-check-job
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - all
+                privileged: false
+                readOnlyRootFilesystem: true
               env:
                 - name: ENV
                   value: "PROD"

@@ -26,7 +26,7 @@ class ContractsCheckJob {
     asaasGateway
 
     constructor() {
-        this.logger = Logger.getInstance(name, process.env?.ENV !== 'PROD')
+        this.logger = Logger.getInstance(name)
         SqlDB.SettingModel.findOne({
             where: {
                 name: 'sandBox',

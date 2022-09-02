@@ -17,7 +17,7 @@ WORKDIR /home/node/app
 COPY --chown=node:node package.json ./
 COPY --chown=node:node ./src ./src
 
-RUN yarn add pm2 --prod i --omit=dev npm@latest && npm update
+RUN yarn install --prod
 
 FROM node:16-alpine AS final
 
@@ -28,4 +28,4 @@ WORKDIR /home/node/app
 
 EXPOSE ${PORT}
 
-ENTRYPOINT ["yarn", "job"]
+ENTRYPOINT ["node", "src/job.mjs"]
