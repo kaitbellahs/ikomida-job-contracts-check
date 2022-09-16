@@ -1,6 +1,9 @@
 node_modules/
-npm-debug.log
 .idea/
 .vscode/
-*.lock
 package-lock.json
+*.lock
+dist
+**/node_modules
+*.npmrc
+*.log
