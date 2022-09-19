@@ -1,29 +1,33 @@
 FROM  google/cloud-sdk:alpine AS build
 
+ARG PORT 80
 ARG GOOGLE_SERVICE_ACCOUNT
-ENV GOOGLE_APPLICATION_CREDENTIALS /service/serviceAccount.json
+ENV GOOGLE_APPLICATION_CREDENTIALS /job/jobAccount.json
 
-RUN mkdir -p /service 
-WORKDIR /service
+RUN mkdir -p /job 
+WORKDIR /job
 
-RUN apk update && apk --no-cache -U upgrade && apk add --no-cache yarn npm && echo $GOOGLE_SERVICE_ACCOUNT > /service/serviceAccount_b64 && base64 -d /service/serviceAccount_b64 > $GOOGLE_APPLICATION_CREDENTIALS && gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS 
+RUN apk update && apk --no-cache -U upgrade && apk add --no-cache npm && npm --global i yarn && echo $GOOGLE_SERVICE_ACCOUNT > /job/jobAccount_b64 && base64 -d /job/jobAccount_b64 > $GOOGLE_APPLICATION_CREDENTIALS && gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS && export PATH="$(yarn global bin):$PATH" && yarn global add google-artifactregistry-auth
 
-COPY .npmrc package.json .npmrc .eslintignore .prettierrc api-extractor.json rollup.config.ts tsconfig.json /service/
-COPY ./src /service/src
+COPY .npmrc package.json .npmrc .eslintignore .prettierrc api-extractor.json rollup.config.ts tsconfig.json /job/
+RUN yarn glogin && yarn install
 
-RUN yarn glogin && yarn install && rm -rf node_modules && yarn install --production
+COPY ./src /job/src
+RUN yarn build && yarn install --production
 
 FROM node:16-alpine AS final
 
 ENV NODE_ENV production
 ENV NODEPORT ${PORT}
 
-RUN apk update && apk --no-cache -U upgrade && addgroup -g 3000  ikomida && deluser --remove-home node && adduser -u 1000 -G ikomida -s /bin/sh -D -h /service ikomida && chown 1000:3000 /service
+RUN apk update && apk --no-cache -U upgrade && addgroup -g 3000  ikomida && deluser --remove-home node && adduser -u 1000 -G ikomida -s /bin/sh -D -h /job ikomida && chown 1000:3000 /job
 USER ikomida
-WORKDIR /service
+WORKDIR /job
 
-COPY --chown=ikomida:ikomida --from=build /service/package.json ./
-COPY --chown=ikomida:ikomida --from=build /service/node_modules ./node_modules/
-COPY --chown=ikomida:ikomida --from=build /service/dist ./dist/
+COPY --chown=ikomida:ikomida --from=build /job/package.json ./
+COPY --chown=ikomida:ikomida --from=build /job/node_modules ./node_modules/
+COPY --chown=ikomida:ikomida --from=build /job/build ./build/
 
-ENTRYPOINT ["node", "src/job.mjs"]
+EXPOSE ${PORT}
+
+ENTRYPOINT ["node", "build/job.js"]

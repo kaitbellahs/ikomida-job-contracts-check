@@ -3,16 +3,16 @@
     "version": "1.0.0",
     "description": "ikomida contracts-check job",
     "private": true,
-    "module": "dist/job.mjs",
-    "types": "dist/job.d.ts",
+    "module": "build/job.mjs",
+    "types": "build/job.d.ts",
     "files": [
-        "dist"
+        "build"
     ],
     "type": "module",
     "scripts": {
-        "job": "node dist/job.mjs",
+        "job": "node build/job.mjs",
         "start": "pm2-runtime start process.yml",
-        "build": "rimraf ./build ./dist ./docs && tsc && rollup -c",
+        "build": "rimraf ./build ./build ./docs && tsc",
         "prebuild:types": "rimraf ./build",
         "build:types": "tsc -p ./tsconfig.json --outDir build && api-extractor run",
         "predoc:jsdoc": "rimraf ./docs",
@@ -21,9 +21,8 @@
         "docs:typedoc": "typedoc src --out docs",
         "format": "prettier --write \"src/**/*.ts\"",
         "lint": "eslint . --ext .ts --quiet --fix",
-        "clean": "rimraf ./build ./dist ./docs",
+        "clean": "rimraf ./build ./build ./docs",
         "glogin": "artifactregistry-auth",
-        "prepare": "yarn build",
         "prepublishOnly": "yarn lint",
         "preversion": "yarn lint",
         "version": "yarn format && git add -A src",
@@ -70,8 +69,7 @@
         "typescript": "^4.8.2"
     },
     "dependencies": {
-        "@ikomida/shared-backend": "^0.0.107",
-        "axios": "^0.27.2",
-        "uuid": "^8.3.2"
+        "@ikomida/shared-backend": "^0.0.171",
+        "axios": "^0.27.2"
     }
 }
