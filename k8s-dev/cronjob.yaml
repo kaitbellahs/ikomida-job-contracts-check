@@ -29,8 +29,8 @@ spec:
             - image: hub.docker.internal:5000/ikomida/contracts-check-job-image:latest
               name: contracts-check-job
               env:
-                - name: ENV
-                  value: "DEV"
+                - name: NODE_ENV
+                  value: "development"
                 - name: DBUSER
                   valueFrom:
                     secretKeyRef:

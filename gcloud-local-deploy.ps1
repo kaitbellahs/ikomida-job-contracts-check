@@ -23,7 +23,7 @@ ThrowOnNativeFailure
 kubectl -n ikomida-job delete deploy contracts-check-job
 $prod = $false
 if($args.count -gt 1){
-    $prod=$args[1]==="prod"
+    $prod=$args[1] -eq "prod"
 }
 if($prod){
 kubectl apply -f k8s
