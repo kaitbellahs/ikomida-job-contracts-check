@@ -13,29 +13,7 @@ class ContractsCheckJob {
 
   constructor() {
     this.logger = Utils.Logger.getInstance(name);
-    DBModels.SettingModel.findOne({
-      where: {
-        name: 'sandBox',
-      },
-    })
-      .then((setting) => {
-        DBModels.SettingModel.findOne({
-          where: {
-            name: setting?.value === '1' ? 'asaasAccessTokenSandBox' : 'asaasAccessToken',
-          },
-        })
-          .then((asaasAccessToken) => {
-            this.asaasGateway = new GateWays.Asaas(this.logger, asaasAccessToken?.value ?? '', setting?.value === '1');
-          })
-          .catch((exception) => {
-            console.error(exception);
-            process.exit(1);
-          });
-      })
-      .catch((exception) => {
-        console.error(exception);
-        process.exit(1);
-      });
+    this.asaasGateway = new GateWays.Asaas(this.logger);
   }
 
   async run() {

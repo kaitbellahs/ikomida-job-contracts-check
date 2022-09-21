@@ -35,6 +35,13 @@ spec:
                     - all
                 privileged: false
                 readOnlyRootFilesystem: true
+              resources:
+                requests:
+                  cpu: "20m"
+                  memory: "200m"
+                limits:
+                  cpu: "40m"
+                  memory: "400m"
               env:
                 - name: NODE_ENV
                   value: "production"
@@ -75,14 +82,8 @@ spec:
                     secretKeyRef:
                       name: environment
                       key: DBPORT
-                - name: PROJID
+                - name: ASAAS_TOKEN
                   valueFrom:
                     secretKeyRef:
                       name: environment
-                      key: PROJID
-                - name: GOOGLEADMIN
-                  valueFrom:
-                    secretKeyRef:
-                      name: environment
-                      key: googleAdmin
-                      optional: false
+                      key: ASAAS_TOKEN
