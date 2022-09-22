@@ -13,7 +13,7 @@
             "DOM"
         ],
         "allowJs": false,
-        "declaration": false,
+        "declaration": true,
         "declarationMap": false,
         "emitDeclarationOnly": false,
         "noEmitOnError": true,
@@ -26,7 +26,7 @@
         "strict": true,
         "target": "ESNext",
         "sourceMap": false,
-        "removeComments": false,
+        "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true
     }
