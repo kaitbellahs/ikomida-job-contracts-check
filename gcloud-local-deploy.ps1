@@ -16,9 +16,9 @@ yarn glogin
 ThrowOnNativeFailure
 yarn add @ikomida/shared-backend@latest
 ThrowOnNativeFailure
-docker build -t us-central1-docker.pkg.dev/ikomida-prod/docker/contracts-check-job-image:latest . --build-arg GOOGLE_SERVICE_ACCOUNT="$env:GOOGLE_SERVICE_ACCOUNT"  --build-arg NODEENV=devlopment $nocache
+docker build -t us-central1-docker.pkg.dev/ikomida-dev/docker/contracts-check-job-image:latest . --build-arg GOOGLE_SERVICE_ACCOUNT="$env:GOOGLE_SERVICE_ACCOUNT"  --build-arg NODEENV=devlopment $nocache
 ThrowOnNativeFailure
-docker push us-central1-docker.pkg.dev/ikomida-prod/docker/contracts-check-job-image:latest
+docker push us-central1-docker.pkg.dev/ikomida-dev/docker/contracts-check-job-image:latest
 ThrowOnNativeFailure
 kubectl -n ikomida-job delete deploy contracts-check-job
 $prod = $false

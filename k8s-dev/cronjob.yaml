@@ -26,7 +26,7 @@ spec:
             runAsNonRoot: true
           restartPolicy: OnFailure
           containers:
-            - image: us-central1-docker.pkg.dev/ikomida-prod/docker/contracts-check-job-image:latest
+            - image: us-central1-docker.pkg.dev/ikomida-dev/docker/contracts-check-job-image:latest
               name: contracts-check-job
               securityContext:
                 allowPrivilegeEscalation: false
