@@ -26,7 +26,7 @@ spec:
             runAsNonRoot: true
           restartPolicy: OnFailure
           containers:
-            - image: us-central1-docker.pkg.dev/ikomida-prod/docker/contracts-check-job-image:latest
+            - image: us-central1-docker.pkg.dev/$PROJECT_ID/docker/contracts-check-job-image:latest
               name: contracts-check-job
               securityContext:
                 allowPrivilegeEscalation: false
@@ -37,14 +37,18 @@ spec:
                 readOnlyRootFilesystem: true
               resources:
                 requests:
-                  cpu: "20m"
-                  memory: "200m"
+                  cpu: "18m"
+                  memory: "60Mi"
                 limits:
-                  cpu: "40m"
-                  memory: "400m"
+                  cpu: "150m"
+                  memory: "150Mi"
               env:
                 - name: NODE_ENV
-                  value: "production"
+                  valueFrom:
+                    secretKeyRef:
+                      name: environment
+                      key: NODE_ENV
+                      optional: false
                 - name: IKOMIDA_PRIVATEKEY
                   valueFrom:
                     secretKeyRef:
