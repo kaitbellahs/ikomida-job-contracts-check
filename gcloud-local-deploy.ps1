@@ -24,7 +24,7 @@ docker build -t us-central1-docker.pkg.dev/$projectid/docker/contracts-check-job
 ThrowOnNativeFailure
 docker push us-central1-docker.pkg.dev/$projectid/docker/contracts-check-job-image:latest
 ThrowOnNativeFailure
-kubectl -n ikomida-job delete deploy contracts-check-job
+kubectl -n ikomida-job delete CronJob contracts-check-job
 
 Get-ChildItem ".\k8s\" -Filter *.yaml | 
 Foreach-Object {
