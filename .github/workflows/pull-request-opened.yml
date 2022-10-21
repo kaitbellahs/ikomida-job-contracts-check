@@ -55,6 +55,7 @@ jobs:
       - name: Install dependencies
         run: |-
           cat .npmrc
+          rm yarn.lock || true
           yarn install
       - name: Prepare code
         run: |
