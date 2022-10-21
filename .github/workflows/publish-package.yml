@@ -51,6 +51,7 @@ jobs:
         run: |-
           docker buildx build -t "${DOCKER_IMAGE}:${PACKAGE_VERSION}" -t "${DOCKER_IMAGE}:${TAG}" . -o type=registry --cache-to="type=registry,ref=${DOCKER_IMAGE}:cache,mode=max" --cache-from="type=registry,ref=${DOCKER_IMAGE}:cache" --build-arg GOOGLE_SERVICE_ACCOUNT="${BASE64_SERVICE_ACCOUNT}" --build-arg PROJECT_ID="${PROJECT_ID}" --builder=container
       - name: Update branch tag version
+        if: github.base_ref == 'dev'
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
