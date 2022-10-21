@@ -53,7 +53,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: |-
+          cat .npmrc
+          yarn install --frozen-lockfile
       - name: Prepare code
         run: |
           yarn format
