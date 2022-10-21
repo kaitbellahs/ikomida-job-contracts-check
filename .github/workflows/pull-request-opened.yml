@@ -55,7 +55,7 @@ jobs:
       - name: Install dependencies
         run: |-
           cat .npmrc
-          yarn install --frozen-lockfile
+          yarn install
       - name: Prepare code
         run: |
           yarn format
