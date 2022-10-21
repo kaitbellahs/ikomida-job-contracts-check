@@ -23,10 +23,13 @@ jobs:
         env:
           PROJECT_ID: ${{ steps.auth.outputs.project_id }}
         run: |-
+          BRANCH="${GITHUB_REF##*/}"
+          echo "Branch: $BRANCH"
           echo "Selected gcloud project id: ${PROJECT_ID}"
           rm .npmrc || true
           echo "@ikomida:registry=https://${GCLOUD_LOCATION}-npm.pkg.dev/${PROJECT_ID}/node/" >> .npmrc
           echo "//${GCLOUD_LOCATION}-npm.pkg.dev/${PROJECT_ID}/node/:always-auth=true" >> .npmrc
+          cat .npmrc
           yarn glogin
       - name: Check service version
         run: |
