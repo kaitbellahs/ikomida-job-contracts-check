@@ -2,8 +2,8 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   labels:
-    app: contracts-check
-  name: contracts-check-job
+    app: $NAME
+  name: $NAME-$TYPE
   namespace: ikomida-job
 spec:
   schedule: "0 0 * * *"
@@ -17,7 +17,7 @@ spec:
       template:
         metadata:
           labels:
-            app: contracts-check
+            app: $NAME
         spec:
           securityContext:
             runAsUser: 1000
@@ -26,8 +26,8 @@ spec:
             runAsNonRoot: true
           restartPolicy: OnFailure
           containers:
-            - image: us-central1-docker.pkg.dev/$PROJECT_ID/docker/contracts-check-job-image:latest
-              name: contracts-check-job
+            - image: $GCLOUD_LOCATION-docker.pkg.dev/$PROJECT_ID/docker/$NAME-$TYPE-image:$PACKAGE_VERSION
+              name: $NAME-$TYPE
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
@@ -37,8 +37,8 @@ spec:
                 readOnlyRootFilesystem: true
               resources:
                 requests:
-                  cpu: "18m"
-                  memory: "72Mi"
+                  cpu: "50m"
+                  memory: "90Mi"
                 limits:
                   cpu: "150m"
                   memory: "150Mi"
