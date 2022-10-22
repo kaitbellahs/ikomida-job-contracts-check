@@ -18,7 +18,7 @@ class ContractsCheckJob {
 
   async run() {
     try {
-      this.logger.error(`Contracts checker started...!`)
+      this.logger.info(`Contracts checker started...!`)
       const contracts = await DBModels.ContractModel.findAll({
         order: [['createdAt', 'DESC']],
         include: {
